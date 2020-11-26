@@ -1,1 +1,0 @@
-heroku war:deploy zx-db.war --app zx-db
