@@ -11,6 +11,8 @@ public class DBagent {
 	private static final String url="jdbc:mysql://localhost:3306/zxdb1?useUnicode=true&serverTimezone=UTC&useSSL=false";
 	private static final String user = "zxded";
 	private static final String password = "7gVS81eq";
+	//private static final String user = "root";
+	//private static final String password = "root";
     
 	public Connection getConnection() {
 		String query = "select * from items";

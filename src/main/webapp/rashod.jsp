@@ -29,17 +29,17 @@
 		$(document).ready(function() {
 			//ПОЛУЧЕНИЕ ПОСЛЕДНЕГО НОМЕРА ДОКУМЕНТА ИЗ БД
 			$.get("AddDoc", function(responseText) {
-				document.getElementById("docnum_new").value = parseInt(responseText) + 1;
+				document.getElementById("doc_id_new").value = parseInt(responseText) + 1;
 			});
 			//ЗАГРУЗКА ТЕКУЩЕЙ ДАТЫ
 			var date = new Date();
-			document.getElementById("docdate_new").value = date.toISOString().slice(0, 10);
+			document.getElementById("doc_date_new").value = date.toISOString().slice(0, 10);
 
 			//ИНИЦИАЛИЗАЦИЯ ТАБЛИЦЫ ДОКУМЕНТА
 			var table = $("#table").DataTable({
 				columns: [
 					{'title': 'eq'},
-					{'title': 'doc_num'},
+					{'title': 'doc_id'},
 					{'title': 'item_id'},
 					{'title': 'item'},
 					{'title': 'quantity'}
@@ -100,9 +100,9 @@
 		</div>
 		<div class="operations_section">
 			<p>Документ № 
-			<input class="inp" size="5" id="docnum_new" name="docnum_new" maxlength="5" type="text">
+			<input class="inp" size="5" id="doc_id_new" name="doc_id_new" maxlength="5" type="text">
 			<p>от 
-			<input class="inp" size="10" id="docdate_new" name="docdate_new" maxlength="10" type="date">
+			<input class="inp" size="10" id="doc_date_new" name="doc_date_new" maxlength="10" type="date">
 		</div>
 		<div class="menu">
 			<a href="#AddItemToDoc_window"><div id="AddItemToDoc_button" class="button w1">Подбор</div></a>
@@ -119,7 +119,7 @@
 						<thead>
 							<tr>
 								<th>№</th>
-								<th>doc_num</th>
+								<th>doc_id</th>
 								<th>id</th>
 								<th>Наименование</th>
 								<th>Количество</th>
@@ -149,7 +149,7 @@
 				</table>
 				<input class="hidden1" type="text" id="item_id_to_add">
 				<input class="hidden1" type="text" id="item">
-				<input class="hidden1" type="text" id="doc_num_to_add">
+				<input class="hidden1" type="text" id="doc_id_to_add">
 				<a href="#"><div class="button w1">Закрыть</div></a>
 			</div>
 		</div>
@@ -177,11 +177,11 @@
 	//КНОПКА "СОХРАНИТЬ" В ПРИХОДЕ
 	SaveQuantity_button.onclick = function(){
 		var item_id_to_add = document.getElementById("item_id_to_add").value;
-		var doc_num = document.getElementById("docnum_new").value;
+		var doc_id = document.getElementById("doc_id_new").value;
 		var item = document.getElementById("item").value;
 		var quantity = document.getElementById("quantity").value;
 		eq_count += 1;
-		$('#table').DataTable().row.add([eq_count, doc_num, item_id_to_add, item, quantity]).draw();
+		$('#table').DataTable().row.add([eq_count, doc_id, item_id_to_add, item, quantity]).draw();
 	}
 
 	//КНОПКА "ЗАПИСАТЬ" В ПРИХОДЕ
@@ -203,12 +203,12 @@
 
 
 		//ДОБАВЛЯЕМ НОВУЮ ЗАПИСЬ В ТАБЛИЦУ docs
-		var docnum_new = document.getElementById("docnum_new").value;
-		var docdate_new = document.getElementById("docdate_new").value;
+		var doc_id_new = document.getElementById("doc_id_new").value;
+		var doc_date_new = document.getElementById("doc_date_new").value;
 		$.ajax ({
 			url: "AddDoc",
 			type: "POST",
-			data: "docnum_new="+docnum_new+"&docdate_new="+docdate_new+"&doc_type_id=2",
+			data: "doc_id_new="+doc_id_new+"&doc_date_new="+doc_date_new+"&doc_type_id=2",
 			success: function() {
 				//ПЕРЕДАЕМ JSON В СЕРВЛЕТ 
 				$.ajax ({

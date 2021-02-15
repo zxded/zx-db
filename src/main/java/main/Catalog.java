@@ -51,6 +51,7 @@ public class Catalog extends HttpServlet {
 				obj.put("id", String.valueOf(rs.getInt(1)));
 				obj.put("item", rs.getString(2));
 				obj.put("quantity", String.valueOf(rs.getInt(3)));
+				obj.put("price", String.valueOf(rs.getInt(4)));
 		 	   	data.add(obj);
 		 	}
 			String s = data.toString();
@@ -83,6 +84,7 @@ public class Catalog extends HttpServlet {
 				obj.put("id", String.valueOf(rs.getInt(1)));
 				obj.put("item", rs.getString(2));
 				obj.put("quantity", String.valueOf(rs.getInt(3)));
+				obj.put("price", String.valueOf(rs.getInt(4)));
 		 	   	data.add(obj);
 		 	}
 			String s = data.toString();

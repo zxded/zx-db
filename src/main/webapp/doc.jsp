@@ -15,28 +15,29 @@
 		$(document).ready(function() {
 			//ПОЛУЧЕНИЕ ПОСЛЕДНЕГО НОМЕРА ДОКУМЕНТА ИЗ БД
 			$.get("AddDoc", function(responseText) {
-				document.getElementById("docnum_new").value = parseInt(responseText) + 1;
+				document.getElementById("doc_id_new").value = parseInt(responseText) + 1;
 			});
 			//ЗАГРУЗКА ТЕКУЩЕЙ ДАТЫ
 			var date = new Date();
-			document.getElementById("docdate_new").value = date.toISOString().slice(0, 10);
+			document.getElementById("doc_date_new").value = date.toISOString().slice(0, 10);
 
 			//ИНИЦИАЛИЗАЦИЯ ТАБЛИЦЫ ДОКУМЕНТА
 			var table = $("#table").DataTable({
 				columns: [
 					{'title': 'eq'},
-					{'title': 'doc_num'},
+					{'title': 'doc_id'},
 					{'title': 'item_id'},
 					{'title': 'item'},
 					{'title': 'quantity'}
 				],
 				aoColumnDefs: [
 					{sClass: 'eq','aTargets':[0], sWidth: '30px'},
-					{sClass: 'doc_num','aTargets':[1], sWidth: '30px'},
+					{sClass: 'doc_id','aTargets':[1], sWidth: '30px'},
 					{sClass: 'item_id','aTargets':[2], sWidth: '30px'},
 					{sClass: 'item','aTargets':[3], sWidth: '500px'},
 					{sClass: 'quantity','aTargets':[4], sWidth: '70px'}
 				],
+				iDisplayLength: -1,
 				select: {
 					style: "single",
 					toggleable: false
@@ -99,9 +100,10 @@
 		<div class="title"><h1 id="title"></div>
 		<div class="operations_section">
 			<p>Документ № 
-			<input class="inp" size="5" id="docnum_new" name="docnum_new" maxlength="5" type="text">
+			<input class="inp" size="5" id="doc_id_new" name="doc_id_new" maxlength="5" type="text">
 			<p>от 
-			<input class="inp" size="10" id="docdate_new" name="docdate_new" maxlength="10" type="date">
+			<input class="inp" size="10" id="doc_date_new" name="doc_date_new" maxlength="10" type="date">
+			<input class="displayNone" size="1" id="processed" type="text">
 		</div>
 		<div class="menu">
 			<a href="#AddItemToDoc_window"><div id="AddItemToDoc_button" class="button w1">Подбор</div></a>
@@ -119,7 +121,7 @@
 						<thead>
 							<tr>
 								<th>№</th>
-								<th>doc_num</th>
+								<th>doc_id</th>
 								<th>id</th>
 								<th>Наименование</th>
 								<th>Количество</th>
@@ -149,7 +151,7 @@
 				</table>
 				<input class="hidden1" type="text" id="item_id_to_add">
 				<input class="hidden1" type="text" id="item">
-				<input class="hidden1" type="text" id="doc_num_to_add">
+				<input class="hidden1" type="text" id="doc_id_to_add">
 				<a href="#"><div class="button w1">Закрыть</div></a>
 			</div>
 		</div>
@@ -195,7 +197,7 @@
 	//КНОПКА "ЗАПИСАТЬ" ПРИ ВЫБОРЕ КОЛИЧЕСТВА ПОСЛЕ ПОДБОРА
 	SaveQuantity_button.onclick = function(){
 		var item_id_to_add = document.getElementById("item_id_to_add").value;
-		var doc_num = document.getElementById("docnum_new").value;
+		var doc_id = document.getElementById("doc_id_new").value;
 		var item = document.getElementById("item").value;
 		var quantity = document.getElementById("quantity").value;
 		eq_count += 1;
@@ -204,7 +206,7 @@
 			setTimeout(focusQ, 100);
 		}
 		else {
-			$('#table').DataTable().row.add([eq_count, doc_num, item_id_to_add, item, quantity]).draw();
+			$('#table').DataTable().row.add([eq_count, doc_id, item_id_to_add, item, quantity]).draw();
 			document.location.href = "#AddItemToDoc_window";
 		}
 	}
@@ -241,13 +243,16 @@
 		var json = JSON.stringify(obj);
 
 		//ДОБАВЛЯЕМ НОВУЮ ЗАПИСЬ В ТАБЛИЦУ docs
-		var docnum_new = document.getElementById("docnum_new").value;
-		var docdate_new = document.getElementById("docdate_new").value;
+		var doc_id_new = document.getElementById("doc_id_new").value;
+		var doc_date_new = document.getElementById("doc_date_new").value;
+		var doc_date_new = document.getElementById("doc_date_new").value;
+		//var processed = 0;	//ДОДЕЛАТЬ!
 		$.ajax ({
 			url: "AddDoc",
 			type: "POST",
-			data: "docnum_new="+docnum_new+"&docdate_new="+docdate_new+"&doc_type_id="+doc_type,
+			data: "doc_id_new="+doc_id_new+"&doc_date_new="+doc_date_new+"&doc_type_id="+doc_type,//+"&contragent_id="+contragent_id+"&processed="+processed+"&info="+info,
 			success: function() {
+				alert("Документ добавлен!");
 				//ПЕРЕДАЕМ JSON В СЕРВЛЕТ 
 				$.ajax ({
 					url: "AddItems",

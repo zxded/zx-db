@@ -46,7 +46,7 @@ public class Prihod extends HttpServlet {
 		    String doc = request.getParameter("doc_id");
 		    System.out.println("Doc = " + doc);
 		    //String query = "INSERT INTO products (product) " +"VALUES ('test');";
-		    String query = "SELECT * FROM docs WHERE doc_num = '"+doc+"';";
+		    String query = "SELECT * FROM docs WHERE doc_id = '"+doc+"';";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();

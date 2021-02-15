@@ -48,10 +48,10 @@ public class EditDoc extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		try {
 			String id_new = request.getParameter("id_new");
-			String doc_num_to_add = request.getParameter("doc_num_to_add");
+			String doc_id_to_add = request.getParameter("doc_id_to_add");
 			String item_id_to_add = request.getParameter("item_id_to_add");
 			String quantity_to_add = request.getParameter("quantity_to_add");
-			String query = "INSERT INTO operations VALUES ('"+id_new+"', '"+doc_num_to_add+"', '"+item_id_to_add+"', '"+quantity_to_add+"');";
+			String query = "INSERT INTO operations VALUES ('"+id_new+"', '"+doc_id_to_add+"', '"+item_id_to_add+"', '"+quantity_to_add+"');";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();

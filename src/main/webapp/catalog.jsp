@@ -45,13 +45,15 @@
 					},
 					{ data: 'id'},
 					{ data: 'item'},
-					{ data: 'quantity'}
+					{ data: 'quantity'},
+					{ data: 'price'}
 				],
 				aoColumnDefs: [
-					{sClass: 'eq','aTargets':[0], sWidth: '30px'},
-					{sClass: 'hiddenID','aTargets':[1]},
-					{sClass: 'item','aTargets':[2], sWidth: '500px'},
-					{sClass: 'q','aTargets':[3], sWidth: '70px'}
+					{sClass: 'eq','aTargets':[0]},
+					{sClass: 'displayNone','aTargets':[1]},
+					{sClass: 'item','aTargets':[2], sWidth: '300'},
+					{sClass: 'q','aTargets':[3]},
+					{sClass: 'p','aTargets':[4]}
 				],
 				aLengthMenu: [
 					[25, 50, 100, 200, -1],
@@ -64,7 +66,8 @@
 				},
 				"initComplete": function() {
 					table.row(':eq(0)').select();
-				}
+				},
+				"order": [[ 2, 'asc' ]]
 			});
 		});
 	</script>
@@ -78,13 +81,10 @@
 	<header class="header">
 		<div class="title"><h1>Каталог комплектующих</div>
 		<div class="menu">
-			<div class="button w1 button_on">Каталог</div>
 			<a href="operations.jsp"><div class="button w1">Операции</div></a>
-		</div>
-		<div class="menu">
 			<a href="#add_window"><div id="Add_button_start" class="button w1">Добавить</div></a>
 			<a href="#edit_window"><div id="Edit_button_start" class="button w1">Изменить</div></a>
-			<a href="#quantity_window"><div id="Quantity_button_start" class="button w1">Количество</div></a>
+			<div id="Quantity_button_start" class="button w1 displayNone">Количество</div>
 		</div>
 	</header>
 
@@ -98,6 +98,7 @@
 							<th class="hiddenID">id</th>
 							<th class="item">Наименование</th>
 							<th class="q">Количество</th>
+							<th class="p">Цена</th>
 						</tr>
 					</thead>
 				</table>
@@ -206,7 +207,7 @@
 			var item_new = document.getElementById("item_new").value;
 			//$.post("AddItem?item="+item_new);
 			$.ajax ({
-				url: "AddItemToCatalog",
+				url: "AddItem",
 				type: "POST",
 				data: "item="+item_new,
 				success: function(){

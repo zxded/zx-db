@@ -25,20 +25,20 @@ public class AddDoc extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String query = "SELECT MAX(num) FROM docs;";
+			String query = "SELECT MAX(id) FROM docs;";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			String docnum_last = "";
+			String doc_id_last = "";
 			while (rs.next()) {
 				System.out.println(String.valueOf(rs.getInt(1)));
-				docnum_last = String.valueOf(rs.getInt(1));
+				doc_id_last = String.valueOf(rs.getInt(1));
 			}
-			System.out.println(docnum_last);
+			System.out.println(doc_id_last);
 			response.setContentType ("text/plain");
 			response.setCharacterEncoding ("UTF-8");
-			response.getWriter().write(docnum_last);
+			response.getWriter().write(doc_id_last);
 		} catch (SQLException e) {
 			getServletContext().getRequestDispatcher("/sqle.jsp").forward(request, response); 
 		}
@@ -47,10 +47,13 @@ public class AddDoc extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		try {
-			String docnum_new = request.getParameter("docnum_new");
-			String docdate_new = request.getParameter("docdate_new");
+			String doc_id_new = request.getParameter("doc_id_new");
+			String doc_date_new = request.getParameter("doc_date_new");
 			String doc_type_id = request.getParameter("doc_type_id");
-			String query = "INSERT INTO docs VALUES ('"+docnum_new+"', '"+docdate_new+"', '"+doc_type_id+"')";
+			//String contragent_id = request.getParameter("contragent_id");
+			//String processed = request.getParameter("processed");
+			//String info = request.getParameter("info");
+			String query = "INSERT INTO docs VALUES ('"+doc_id_new+"', '"+doc_date_new+"', '"+doc_type_id+"', 1, 0, '-')";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();

@@ -33,14 +33,15 @@ public class Docs extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	try {
-    		int num = 1;
-			if (request.getParameter("num") != null) {
-				num = Integer.parseInt(request.getParameter("num"));
-				System.out.println("num = " + num);
+    		int id = 1;
+			if (request.getParameter("id") != null) {
+				id = Integer.parseInt(request.getParameter("id"));
+				System.out.println("id = " + id);
 			}
     		//String query = "SELECT * FROM docs;";
-    		String query = "SELECT docs.num, docs.date, doc_types.doc_type FROM docs JOIN doc_types " +
-    					"ON docs.doc_type_id = doc_types.id;";
+    		//String query = "SELECT docs.id, docs.date, doc_types.doc_type, docs.contragent_id FROM docs JOIN doc_types " +
+    					//"ON docs.doc_type_id = doc_types.id;";
+    		String query = "SELECT docs.id, docs.date, doc_types.doc_type, contragents.contragent, docs.processed, docs.info FROM docs JOIN doc_types ON docs.doc_type_id = doc_types.id JOIN contragents ON docs.contragent_id = contragents.id;";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();
@@ -51,9 +52,15 @@ public class Docs extends HttpServlet {
 			JSONArray data = new JSONArray();
 			while (rs.next()) {
 				JSONObject obj = new JSONObject();
-				obj.put("num", String.valueOf(rs.getInt(1)));
+				obj.put("id", String.valueOf(rs.getInt(1)));
 				obj.put("date", String.valueOf(rs.getDate(2)));
 				obj.put("doc_type", rs.getString(3));
+				obj.put("contragent", rs.getString(4));
+				//String processed;
+				//processed = (rs.getInt(5) == 1) ? "Да" : "Нет";
+				//obj.put("processed", processed);
+				obj.put("processed", rs.getInt(5));
+				obj.put("info", rs.getString(6));
 				data.add(obj);
 		 	}
 			String s = data.toString();

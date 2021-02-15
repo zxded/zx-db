@@ -50,12 +50,12 @@ public class AddItems extends HttpServlet {
 			for (int i=0;i<itemArray.size();i++) {
 				objRow = (JSONObject) itemArray.get(i);
 				System.out.println(objRow);
-				String doc_num = (String) objRow.get("doc_num");
+				String doc_id = (String) objRow.get("doc_id");
 				String item_id = (String) objRow.get("item_id");
 				String quantity = (String) objRow.get("quantity");
-				System.out.println("doc_num = "+doc_num+", item_id = "+item_id+", quantity = "+quantity);
-				String query = 	"INSERT INTO operations (doc_num, item_id, quantity) " +
-								"VALUES ('"+doc_num+"',"+"'"+item_id+"',"+"'"+quantity+"')";
+				System.out.println("doc_id = "+doc_id+", item_id = "+item_id+", quantity = "+quantity);
+				String query = 	"INSERT INTO operations (doc_id, item_id, quantity) " +
+								"VALUES ('"+doc_id+"',"+"'"+item_id+"',"+"'"+quantity+"')";
 				DBagent db = new DBagent();
 				Connection conn = db.getConnection();
 				Statement stmt = conn.createStatement();

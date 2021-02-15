@@ -26,25 +26,26 @@ public class DeleteDoc extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		try {
-			int doc_num = Integer.parseInt(request.getParameter("doc_num"));
-			String query = "DELETE FROM operations WHERE doc_num = " + doc_num;
+			String doc_id = request.getParameter("doc_id");
+			String query = "DELETE FROM operations WHERE doc_id = " + doc_id;
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();
 			int i = stmt.executeUpdate(query);
-			System.out.println("Rows of document №" + doc_num + " is successfully deleted!");
+			stmt.executeUpdate(query);
+			System.out.println("Rows of document №" + doc_id + " is successfully deleted!");
 			//response.sendRedirect(request.getContextPath()+"/operations.jsp");
 		} catch (SQLException e) {
 			getServletContext().getRequestDispatcher("/sqle.jsp").forward(request, response); 
 		}
 		try {
-			int doc_num2 = Integer.parseInt(request.getParameter("doc_num"));
-			String query2 = "DELETE FROM docs WHERE num = " + doc_num2;
+			int doc_id2 = Integer.parseInt(request.getParameter("doc_id"));
+			String query2 = "DELETE FROM docs WHERE id = " + doc_id2;
 			DBagent db2 = new DBagent();
 			Connection conn2 = db2.getConnection();
 			Statement stmt2 = conn2.createStatement();
 			int i2 = stmt2.executeUpdate(query2);
-			System.out.println("Document №" + doc_num2 + " is successfully deleted!");
+			System.out.println("Document №" + doc_id2 + " is successfully deleted!");
 			response.sendRedirect(request.getContextPath()+"/operations.jsp");
 		} catch (SQLException e) {
 			getServletContext().getRequestDispatcher("/sqle.jsp").forward(request, response); 

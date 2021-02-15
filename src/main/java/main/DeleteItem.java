@@ -21,6 +21,7 @@ public class DeleteItem extends HttpServlet {
 	private Statement stmt = null;
 	private ResultSet rs = null;
 	private Connection connect=null;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		try {

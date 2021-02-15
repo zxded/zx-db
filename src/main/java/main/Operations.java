@@ -33,13 +33,13 @@ public class Operations extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	try {
-    		int doc_num = 1;
+    		int doc_id = 1;	//иначе ругается на dic_id в строке запроса
     		if (request.getParameter("doc_id") != null) {
-    			doc_num = Integer.parseInt(request.getParameter("doc_id"));
-    			System.out.println("doc_id = " + doc_num);
+    			doc_id = Integer.parseInt(request.getParameter("doc_id"));
+    			System.out.println("doc_id = " + doc_id);
     		}
-    		String query = "SELECT operations.id, items.item, operations.quantity AS quantity " + 
-    						"FROM operations JOIN items ON items.id=operations.item_id WHERE doc_num = '"+doc_num+"';";
+    		String query = "SELECT operations.id, items.item, operations.quantity AS quantity, operations.price AS price " + 
+    						"FROM operations JOIN items ON items.id=operations.item_id WHERE doc_id = '"+doc_id+"';";
 			DBagent db = new DBagent();
 			Connection conn = db.getConnection();
 			Statement stmt = conn.createStatement();
@@ -53,6 +53,8 @@ public class Operations extends HttpServlet {
 				obj.put("id", String.valueOf(rs.getInt(1)));
 				obj.put("item", rs.getString(2));
 				obj.put("quantity", String.valueOf(rs.getInt(3)));
+				obj.put("price", String.valueOf(rs.getInt(4)));
+				obj.put("summary",  rs.getInt(3) * rs.getInt(4));
 				data.add(obj);
 		 	}
 			String s = data.toString();
@@ -67,5 +69,3 @@ public class Operations extends HttpServlet {
     
     
 }
-
-
